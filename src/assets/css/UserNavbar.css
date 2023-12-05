@@ -1,0 +1,69 @@
+.bigContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 999;
+}
+.bigContainer .userNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1180px;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+}
+.bigContainer .userNavbar h1 a {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-size: 25px;
+  text-decoration: none;
+  color: black;
+}
+.bigContainer .userNavbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+.bigContainer .userNavbar ul li {
+  margin: 0;
+  padding: 0;
+  line-height: 100px;
+  padding: 0 20px;
+}
+.bigContainer .userNavbar ul li :hover {
+  color: #74a84a;
+}
+.bigContainer .userNavbar ul li a {
+  text-decoration: none;
+  color: #000000;
+  font-family: Roboto, sans-serif;
+  font-weight: inherit;
+  letter-spacing: 2px;
+}
+.bigContainer .userNavbar ul .bag,
+.bigContainer .userNavbar ul .wish {
+  margin: 10px;
+  padding: 0;
+}
+.bigContainer .userNavbar ul .bag .up,
+.bigContainer .userNavbar ul .wish .up {
+  width: 4px;
+  height: 4px;
+}
+.bigContainer .userNavbar ul .bag .up span,
+.bigContainer .userNavbar ul .wish .up span {
+  font-size: 10px;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  padding: 4px 7px;
+  border-radius: 50%;
+}
+.bigContainer .userNavbar ul .wish path {
+  font-size: 25px;
+}/*# sourceMappingURL=UserNavbar.css.map */
