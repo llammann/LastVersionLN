@@ -61,7 +61,8 @@ function UserNavbar() {
                       <MdFavorite
                         style={{
                           color: "#2C541D",
-                          fontSize: "25px",
+                          width: "25px",
+                          height: "25px",
                         }}
                       />
                     </span>

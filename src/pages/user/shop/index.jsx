@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../../assets/style/Shop.scss";
 import Grid from "@mui/material/Grid";
 import { render } from "react-dom";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Box from "@mui/material/Box";
 import axios from "axios";
@@ -16,6 +16,7 @@ import {
   faBagShopping,
 } from "@fortawesome/free-solid-svg-icons";
 import Icon, { SearchOutlined } from "@ant-design/icons";
+{/* <HeartFilled />; */}
 
 import { handleBasket } from "../../../Config/BasketSlice";
 import { handleWishlist } from "../../../Config/WishlistSlice";
@@ -159,7 +160,11 @@ function Shop() {
                             className="heart"
                             onClick={() => handleWish(x)}
                           >
-                            <HeartOutlined />
+                            {MyWishlist.find((wish) => wish.id === x.id) ? (
+                              <HeartFilled />
+                            ) : (
+                              <HeartOutlined />
+                            )}
                           </button>
                           <img src={x.image} alt="" />
                         </div>

@@ -13,19 +13,20 @@ import {
   faHand,
   faBagShopping,
 } from "@fortawesome/free-solid-svg-icons";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import Products from "../../admin/products";
+import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
+  const MyWishlist = useSelector((state) => state.wishlist.wishlist);
+
   const [products, setProducts] = useState([]);
   useEffect(() => {
     axios.get("http://localhost:3000/products").then((res) => {
       const firstThreeProducts = res.data.slice(0, 3);
       setProducts(firstThreeProducts);
 
-      console.log(
-        firstThreeProducts
-      )
+      console.log(firstThreeProducts);
     });
   }, []);
 
@@ -55,7 +56,11 @@ function Home() {
                       </button>
 
                       <button className="heart">
-                        <HeartOutlined />
+                        {MyWishlist.find((wish) => wish.id === x.id) ? (
+                          <HeartFilled />
+                        ) : (
+                          <HeartOutlined />
+                        )}
                       </button>
 
                       <img src={x.image} alt="" />

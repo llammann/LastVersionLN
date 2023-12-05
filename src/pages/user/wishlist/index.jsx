@@ -3,7 +3,6 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { HeartOutlined,HeartFilled } from "@ant-design/icons";
 
-{/* <HeartFilled /> */}
 import { useSelector } from "react-redux";
 import "./../../../assets/style/wishlist.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,7 +40,7 @@ function Wishlist() {
                         />
                       </button>
                       <button className="heart">
-                        <HeartOutlined />
+                        <HeartFilled /> 
                       </button>
                       <img src={wish.image} alt="" />
                     </div>
