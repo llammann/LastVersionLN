@@ -25,7 +25,6 @@ export const routes = [
         element: <Home />,
       },
       {
-        // path: "home/:id",
         path: "detail",
         element: <Detail />,
       },
@@ -72,6 +71,10 @@ export const routes = [
     element: <AdminHome />,
     children: [
       {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
         path: "users",
         element: <Users />,
       },
@@ -80,16 +83,12 @@ export const routes = [
         element: <Products />,
       },
       {
-        path: "/admin/addUsers",
+        path: "addUsers",
         element: <AddUsers />,
       },
       {
-        path: "/admin/addProducts",
+        path: "addProducts",
         element: <AddProducts />,
-      },
-      {
-        path: "/admin/dashboard",
-        element: <Dashboard />,
       },
     ],
   },

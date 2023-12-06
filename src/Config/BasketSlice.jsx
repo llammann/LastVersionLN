@@ -11,6 +11,7 @@ const BasketSlice = createSlice({
   initialState,
   reducers: {
     handleBasket: (state, actions) => {
+      let user = JSON.parse(localStorage.getItem("user"));
       if (state.basket.some((x) => x.products.id === actions.payload.id)) {
         state.basket.forEach((elem) => {
           if (elem.products.id === actions.payload.id) {
@@ -20,6 +21,13 @@ const BasketSlice = createSlice({
       } else {
         state.basket.push({ count: 1, products: actions.payload });
       }
+      let myUser = {
+        username: user.username,
+        password: user.password,
+        basket: state.basket,
+        id: user.id,
+      };
+      localStorage.setItem("user", JSON.stringify(myUser));
 
       localStorage.setItem("basket", JSON.stringify(state.basket));
     },
@@ -57,7 +65,7 @@ const BasketSlice = createSlice({
       localStorage.setItem("basket", JSON.stringify(state.basket));
     },
 
-    removeFromBasket: (state,actions) => {
+    removeFromBasket: (state, actions) => {
       console.log("buraa", actions.payload.products.id);
       // gives the id that i want
       const productIdToRemove = actions.payload.products.id;
@@ -67,9 +75,8 @@ const BasketSlice = createSlice({
       state.basket = state.basket.filter(
         (item) => item.products.id !== productIdToRemove
       );
-      console.log("after remove",state.basket)
+      console.log("after remove", state.basket);
       localStorage.setItem("basket", JSON.stringify(state.basket));
-
     },
 
     // updateBasket: (state, actions) => {
@@ -80,7 +87,12 @@ const BasketSlice = createSlice({
   },
 });
 
-export const { handleBasket, handleMinus, handlePlus, updateBasket,removeFromBasket } =
-  BasketSlice.actions;
+export const {
+  handleBasket,
+  handleMinus,
+  handlePlus,
+  updateBasket,
+  removeFromBasket,
+} = BasketSlice.actions;
 
 export default BasketSlice.reducer;

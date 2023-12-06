@@ -12,7 +12,7 @@ const Login = Yup.object().shape({
   password: Yup.string()
     .required("Please entered the Correct password!")
     .matches(
-      /^(?=.[a-z])(?=.\d).{8,}$/,
+      /^(?=.*[a-z])(?=.*\d).{8,}$/,
       "Please entered the Correct password!"
     ),
   confirm_password: Yup.string()
