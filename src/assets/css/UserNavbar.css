@@ -48,7 +48,6 @@
 }
 .bigContainer .userNavbar ul .bag,
 .bigContainer .userNavbar ul .wish {
-  margin: 10px;
   padding: 0;
 }
 .bigContainer .userNavbar ul .bag .up,
@@ -63,4 +62,6 @@
   color: white;
   padding: 4px 7px;
   border-radius: 50%;
+  max-width: fit-content;
+  font-family: Roboto, sans-serif;
 }/*# sourceMappingURL=UserNavbar.css.map */

@@ -57,15 +57,30 @@ const BasketSlice = createSlice({
       localStorage.setItem("basket", JSON.stringify(state.basket));
     },
 
-    updateBasket: (state, actions) => {
-      const MyBasket = JSON.parse(localStorage.getItem("basket"));
-      console.log("Bassss", MyBasket);
-      state.basket = MyBasket || [];
+    removeFromBasket: (state,actions) => {
+      console.log("buraa", actions.payload.products.id);
+      // gives the id that i want
+      const productIdToRemove = actions.payload.products.id;
+
+      // Remove
+
+      state.basket = state.basket.filter(
+        (item) => item.products.id !== productIdToRemove
+      );
+      console.log("after remove",state.basket)
+      localStorage.setItem("basket", JSON.stringify(state.basket));
+
     },
+
+    // updateBasket: (state, actions) => {
+    //   const MyBasket = JSON.parse(localStorage.getItem("basket"));
+    //   console.log("Bassss", MyBasket);
+    //   state.basket = MyBasket || [];
+    // },
   },
 });
 
-export const { handleBasket, handleMinus, handlePlus, updateBasket } =
+export const { handleBasket, handleMinus, handlePlus, updateBasket,removeFromBasket } =
   BasketSlice.actions;
 
 export default BasketSlice.reducer;

@@ -3,38 +3,44 @@ import "../../../assets/style/Login.scss";
 // import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Field, Form } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate, json, useNavigate } from "react-router-dom";
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().required("Please enter a username"),
   password: Yup.string()
     .required("Please enter the correct password!")
     .matches(
-      /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{8,}$/,
+      /^(?=.[a-z])(?=.\d).{8,}$/,
       "Please enter the correct password!"
     ),
 });
 
 function Index() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:3000/users").then((res) => {
+      setUsers(res.data);
+    });
+  }, []);
 
-  const submitHandler = async (values) => {
-    try {
-      const response = await axios.post("http://localhost:3001/users/login", {
-        username: values.username,
-        password: values.password,
-      });
+  // const submitHandler = async (values) => {
+  //   try {
+  //     const response = await axios.post("http://localhost:3001/users/login", {
+  //       username: values.username,
+  //       password: values.password,
+  //     });
 
-      console.log("Login successful", response.data);
-      history.push("/home");
-    } catch (err) {
-      console.error("Login failed", err);
-      setError("Invalid username or password");
-    }
-  };
+  //     console.log("Login successful", response.data);
+  //     history.push("/home");
+  //   } catch (err) {
+  //     console.error("Login failed", err);
+  //     setError("Invalid username or password");
+  //   }
+  // };
 
   return (
     <div className="login">
@@ -52,7 +58,21 @@ function Index() {
                   password: "",
                 }}
                 validationSchema={LoginSchema}
-                onSubmit={submitHandler}
+                onSubmit={(values) => {
+                  const foundUser = users.find(
+                    (element) =>
+                      element.username === values.username &&
+                      element.password === values.password
+                  );
+
+                  if (foundUser) {
+                    localStorage.setItem("user", JSON.stringify(foundUser));
+                    sessionStorage.setItem("userlogin", JSON.stringify(true));
+                    navigate("/");
+                  } else {
+                    alert("User not found");
+                  }
+                }}
               >
                 {({ errors, touched }) => (
                   <Form>

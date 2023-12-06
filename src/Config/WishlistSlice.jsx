@@ -27,9 +27,23 @@ const WishlistSlice = createSlice({
 
       localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
     },
+
+    
+    removeFromWishlist: (state,actions) => {
+      console.log("laman", actions.payload.products.id);
+      // gives the id that I want
+      const id = actions.payload?.products?.id;
+    
+      // Remove
+      state.wishlist = state.wishlist.filter(
+        (item) => item.products?.id !== id
+      );
+      console.log("after  WWW", state.wishlist);
+      localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+    },
   },
 });
 
-export const { handleWishlist } = WishlistSlice.actions;
+export const { handleWishlist,removeFromWishlist } = WishlistSlice.actions;
 
 export default WishlistSlice.reducer;

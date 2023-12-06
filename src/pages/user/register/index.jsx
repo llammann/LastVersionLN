@@ -5,13 +5,14 @@ import { Formik, Field, Form } from "formik";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ref } from "yup";
+import axios from "axios";
 
 const Login = Yup.object().shape({
   username: Yup.string().required("Please entered username"),
   password: Yup.string()
     .required("Please entered the Correct password!")
     .matches(
-      /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{8,}$/,
+      /^(?=.[a-z])(?=.\d).{8,}$/,
       "Please entered the Correct password!"
     ),
   confirm_password: Yup.string()
@@ -20,6 +21,27 @@ const Login = Yup.object().shape({
 });
 
 function index() {
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (values) => {
+    try {
+      const response = await axios.post("http://localhost:3000/users", {
+        username: values.username,
+        password: values.password,
+      });
+
+      if (response.status === 200 || response.status === 201) {
+        navigate("/login");
+      } else {
+        throw new Error("Registration failed");
+      }
+    } catch (error) {
+      setError("Registration failed. Please try again.");
+      console.error("Registration Error:", error);
+    }
+  };
+
   return (
     <div className="login">
       <title>Login Page</title>
@@ -41,7 +63,7 @@ function index() {
                 validateOnChange={false}
                 validationSchema={Login}
                 onSubmit={(values) => {
-                  console.log(values);
+                  handleSubmit(values);
                 }}
               >
                 {({ errors, touched }) => (

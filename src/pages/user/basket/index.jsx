@@ -7,13 +7,14 @@ import {
   handleMinus,
   handlePlus,
   updateBasket,
+  removeFromBasket,
 } from "../../../Config/BasketSlice";
 
 function Basket() {
   const dispatch = useDispatch();
   const MyBasket = useSelector((state) => state.basket.basket);
   console.log("basket: ", MyBasket);
-
+  let subtotal = 0;
   console.log(MyBasket);
   return (
     <>
@@ -33,50 +34,58 @@ function Basket() {
               </tr>
 
               {MyBasket &&
-                MyBasket.map((x) => (
-                  <tr>
-                    <td>
-                      <div className="cancel">
-                        <button>
-                          <TiDeleteOutline className="CancelCart" />
-                        </button>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="imgWrapper">
-                        <img src={x.products.image} alt="" />
-                      </div>
-                    </td>
-                    <td>{x.products.name}</td>
-                    <td>{x.products.price}</td>
-                    <td>
-                      <div className="quantity">
-                        <button
-                          className="minus"
-                          onClick={() => {
-                            dispatch(handleMinus(x));
-                            dispatch(updateBasket());
-                          }}
-                        >
-                          -
-                        </button>
-                        <span> {x.count}</span>
-                        <button
-                          className="plus"
-                          onClick={() => {
-                            console.log("Before dispatching Plus");
-                            dispatch(handlePlus(x));
-                            dispatch(updateBasket());
-                            console.log("After dispatching Plus");
-                          }}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </td>
-                    <td>{x.products.price * x.count}</td>
-                  </tr>
-                ))}
+                MyBasket.map((x) => {
+                  subtotal += x.products.price * x.count;
+                  return (
+                    <tr>
+                      <td>
+                        <div className="cancel">
+                          <button
+                            onClick={() => {
+                              dispatch(removeFromBasket(x));
+                              dispatch(updateBasket());
+                            }}
+                          >
+                            <TiDeleteOutline className="CancelCart" />
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="imgWrapper">
+                          <img src={x.products.image} alt="" />
+                        </div>
+                      </td>
+                      <td>{x.products.name}</td>
+                      <td>{x.products.price}</td>
+                      <td>
+                        <div className="quantity">
+                          <button
+                            className="minus"
+                            onClick={() => {
+                              dispatch(handleMinus(x));
+                              dispatch(updateBasket());
+                            }}
+                          >
+                            -
+                          </button>
+                          <span> {x.count}</span>
+                          <button
+                            className="plus"
+                            onClick={() => {
+                              console.log("Before dispatching Plus");
+                              dispatch(handlePlus(x));
+                              dispatch(updateBasket());
+                              console.log("After dispatching Plus");
+                            }}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td>{(x.products.price * x.count).toFixed(2)}</td>
+                    </tr>
+                  );
+                })}
             </table>
 
             <div className="buttons">
@@ -101,17 +110,28 @@ function Basket() {
                 <b>Cart Totals</b>
               </h5>
             </div>
+            <div className="body">
             <hr />
-            <p>Subtotal</p>
+            <div className="sub">
+              <span>Subtotal</span>
+              <span>${subtotal.toFixed(2)}</span>
+            </div>
             <hr
               style={{
                 width: "90%",
-                margin: "auto",
+                margin:"auto"
               }}
             />
-            <p>Total</p>
+            <div className="total">
+              <span>Total</span>
+              <span>${subtotal.toFixed(2)}</span>
+            </div>
+
             <hr style={{ width: "90%", margin: "auto" }} />
+            <div className="btn">
             <button>PROCCED TO CHECKOUT</button>
+            </div>
+            </div>
           </div>
         </div>
       </section>

@@ -57,7 +57,7 @@
 
       .bag,
       .wish {
-        margin: 10px;
+        // margin: 10px;
         padding: 0;
         .up {
           width: 4px;
@@ -69,6 +69,8 @@
             color: white;
             padding: 4px 7px;
             border-radius: 50%;
+            max-width: fit-content;
+            font-family: Roboto,sans-serif;
           }
         }
       }

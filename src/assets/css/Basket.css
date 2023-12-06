@@ -118,7 +118,6 @@
   width: 1117px;
   margin: auto;
   display: flex;
-  align-items: start;
   justify-content: end;
 }
 .secondTable .container .subTotal {
@@ -132,22 +131,30 @@
   margin-top: 10px;
   align-items: center;
 }
-.secondTable .container .subTotal p {
-  margin: 20px;
-  padding-left: 20px;
+.secondTable .container .subTotal .body {
+  padding: 20px 40px;
 }
-.secondTable .container .subTotal button {
+.secondTable .container .subTotal .body .total, .secondTable .container .subTotal .body .sub {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #74a84a;
   width: 90%;
-  height: 70px;
-  border: none;
-  color: #fbfbfb;
+  margin: auto;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
-  margin-left: 30px;
+  padding: 10px 0px;
+}
+.secondTable .container .subTotal .body .btn {
+  margin: auto;
+  width: 100%;
+  margin-top: 20px;
+}
+.secondTable .container .subTotal .body .btn button {
+  background-color: #74a84a;
+  color: #fbfbfb;
+  width: 90%;
+  height: 50px;
+  border: none;
+  display: block;
+  margin: auto;
 }
 
 .cartTable {

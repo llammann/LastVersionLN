@@ -10,11 +10,14 @@ import { MdFavorite } from "react-icons/md";
 import { width } from "@mui/system";
 
 function UserNavbar() {
+  let subtotal = 0;
+
   const MyBasket = useSelector((state) => state.basket.basket);
   console.log(MyBasket);
 
-  // const MyBasket = JSON.parse(localStorage.getItem("basket"));
-  // console.log(MyBasket);
+  MyBasket.map((x) => {
+    subtotal += x.products.price * x.count;
+  });
 
   // Calculate the quantity Basket
   const basketQuantity = MyBasket ? MyBasket.length : 0;
@@ -54,15 +57,15 @@ function UserNavbar() {
                     style={{
                       background: "transparent",
                       border: "none",
-                      padding: "0",
+                      padding: "0 20px",
                     }}
                   >
                     <span>
                       <MdFavorite
                         style={{
                           color: "#2C541D",
-                          width: "25px",
-                          height: "25px",
+                          width: "29px",
+                          height: "29px",
                         }}
                       />
                     </span>
@@ -83,7 +86,7 @@ function UserNavbar() {
                   style={{
                     background: "transparent",
                     border: "none",
-                    padding: "0px",
+                    padding: "0 20px",
                   }}
                 >
                   <div
@@ -97,13 +100,15 @@ function UserNavbar() {
                   >
                     <div
                       class="offcanvas-header"
-                      // style={{
-                      //   backgroundColor: "blue",
-                      // }}
+                      style={{
+                        color: "#74a84a",
+                        padding:"30px"
+                      }}
                     >
                       <h5 class="offcanvas-title" id="offcanvasRightLabel">
                         Shopping Cart
                       </h5>
+                      <hr />
                       <button
                         type="button"
                         class="btn-close"
@@ -123,6 +128,31 @@ function UserNavbar() {
                         padding: "30px",
                       }}
                     >
+                      <hr />
+                      <div
+                        className="subTotal"
+                        style={{
+                          width:"100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          fontSize:"20px"
+                        }}
+                      >
+                        <span
+                        style={{
+                          // padding-right: .5em;
+                          // text-align: left;
+                          // font-weight: 500;
+                          fontWeight:"500",
+                          fontSize:"30px",
+                          color:"#74a84a"
+                        }}
+                        >Subtotal:</span>
+                        <span> ${subtotal.toFixed(2)}</span>
+                      </div>
+
+                      <hr />
                       <button
                         style={{
                           width: "100%",
@@ -130,11 +160,14 @@ function UserNavbar() {
                           backgroundColor: " #74a84a",
                         }}
                       >
-                        <Link to="/basket"
-                        style={{
-                          color: "white",
-                        }}
-                        >VIEW CHART</Link>
+                        <Link
+                          to="/basket"
+                          style={{
+                            color: "white",
+                          }}
+                        >
+                          VIEW CHART
+                        </Link>
                       </button>
                       <br />
                       <button
@@ -152,19 +185,27 @@ function UserNavbar() {
 
                   <span>
                     <FaShoppingBag
-                      style={{ color: "#2C541D", fontSize: "25px" }}
+                      style={{
+                        color: "#2C541D",
+                        width: "25px",
+                        height: "25px",
+                      }}
                     />
                   </span>
+                  <sup className="up">
+                    <span>{basketQuantity}</span>
+                  </sup>
                 </button>
-                <sup className="up">
-                  <span>{basketQuantity}</span>
-                </sup>
               </li>
               <li>
                 <Link to="/login">
                   <FontAwesomeIcon
                     icon={faUser}
-                    style={{ color: "#2C541D", fontSize: "20px" }}
+                    style={{
+                      color: "#2C541D",
+                      fontSize: "24px",
+                      paddingTop: "47px",
+                    }}
                   />
                 </Link>
               </li>
