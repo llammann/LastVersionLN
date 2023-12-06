@@ -53,8 +53,7 @@
       "basket": [],
       "favorites": [],
       "id": "5",
-      "username": "michael_taylor",
-      "balance": 180.8
+      "username": "michael_taylor"
     },
     {
       "name": "Sophia",
@@ -67,8 +66,7 @@
       "basket": [],
       "favorites": [],
       "id": "6",
-      "username": "sophia_brown",
-      "balance": 90.3
+      "username": "sophia_brown"
     },
     {
       "name": "Oliver",
@@ -81,8 +79,7 @@
       "basket": [],
       "favorites": [],
       "id": "7",
-      "username": "oliver_jones",
-      "balance": 130.6
+      "username": "oliver_jones"
     },
     {
       "name": "Emma",
@@ -95,8 +92,7 @@
       "basket": [],
       "favorites": [],
       "id": "8",
-      "username": "emma_martinez",
-      "balance": 65.2
+      "username": "emma_martinez"
     },
     {
       "name": "Daniel",
@@ -109,8 +105,7 @@
       "basket": [],
       "favorites": [],
       "id": "9",
-      "username": "daniel_clark",
-      "balance": 95.7
+      "username": "daniel_clark"
     },
     {
       "name": "Sophie",
@@ -123,8 +118,7 @@
       "basket": [],
       "favorites": [],
       "id": "10",
-      "username": "sophie_garcia",
-      "balance": 110.4
+      "username": "sophie_garcia"
     },
     {
       "name": "Liam",
@@ -137,8 +131,7 @@
       "basket": [],
       "favorites": [],
       "id": "11",
-      "username": "liam_lopez",
-      "balance": 75.8
+      "username": "liam_lopez"
     },
     {
       "name": "Ava",
@@ -151,8 +144,7 @@
       "basket": [],
       "favorites": [],
       "id": "12",
-      "username": "ava_young",
-      "balance": 120.9
+      "username": "ava_young"
     },
     {
       "name": "Noah",
@@ -165,8 +157,7 @@
       "basket": [],
       "favorites": [],
       "id": "13",
-      "username": "noah_cooper",
-      "balance": 85.5
+      "username": "noah_cooper"
     },
     {
       "name": "Mia",
@@ -179,8 +170,15 @@
       "basket": [],
       "favorites": [],
       "id": "14",
-      "username": "mia_baker",
-      "balance": 150.2
+      "username": "mia_baker"
+    },
+    {
+      "username": "Laman",
+      "password": "laman123",
+      "wishlist": [],
+      "basket": [],
+      "balance": 0,
+      "id": "ix9E0kS"
     }
   ]
 }

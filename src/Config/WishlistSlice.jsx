@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice,current } from "@reduxjs/toolkit";
 
 const MyWishlist = JSON.parse(localStorage.getItem("wishlist"));
-console.log("WIshhhh",MyWishlist);
+console.log("WIshhhh", MyWishlist);
 
 const initialState = {
   wishlist: MyWishlist || [],
@@ -28,22 +28,35 @@ const WishlistSlice = createSlice({
       localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
     },
 
-    
-    removeFromWishlist: (state,actions) => {
-      console.log("laman", actions.payload.products.id);
-      // gives the id that I want
-      const id = actions.payload?.products?.id;
-    
-      // Remove
-      state.wishlist = state.wishlist.filter(
-        (item) => item.products?.id !== id
-      );
-      console.log("after  WWW", state.wishlist);
-      localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+    removeFromWishlist: (state, action) => {
+      console.log("action.payload:", action.payload);
+      console.log("state:", current(state.wishlist))
+      const idToRemove = action.payload?.products?.id;
+
+      console.log("idToRemove:", idToRemove);
+
+      if (idToRemove) {
+        // Find the index of the item with the matching id in the wishlist
+        const indexToRemove = state.wishlist.findIndex(
+          (item) => item.id === idToRemove
+        );
+console.log(state.wishlist)
+        // If the item is found, remove it using splice
+        if (indexToRemove !== -1) {
+          state.wishlist.splice(indexToRemove, 1);
+        } else {
+          console.warn("Item not found in wishlist.");
+        }
+
+        // Update localStorage with the modified wishlist
+        localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+      } else {
+        console.error("Cannot remove item from wishlist. ID is undefined.");
+      }
     },
   },
 });
 
-export const { handleWishlist,removeFromWishlist } = WishlistSlice.actions;
+export const { handleWishlist, removeFromWishlist } = WishlistSlice.actions;
 
 export default WishlistSlice.reducer;

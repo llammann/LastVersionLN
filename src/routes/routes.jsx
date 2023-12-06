@@ -7,6 +7,7 @@ import Shop from "../pages/user/shop";
 import Basket from "../pages/user/basket";
 import Detail from "../pages/user/detail";
 import Home from "../pages/user/home";
+import UserProfile from "../pages/user/userProfile";
 import UserRoot from "../pages/user/userRoot";
 import Checkout from "../pages/user/checkout";
 import Dashboard from "../pages/admin/dashboard";
@@ -27,6 +28,10 @@ export const routes = [
       {
         path: "detail",
         element: <Detail />,
+      },
+      {
+        path: "profile",
+        element: <UserProfile />,
       },
       {
         path: "shop",

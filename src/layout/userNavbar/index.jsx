@@ -4,13 +4,18 @@ import { Link } from "react-router-dom";
 import "../../assets/style/userNavbar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping, faUser } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FaShoppingBag } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { width } from "@mui/system";
+import { TiDeleteOutline } from "react-icons/ti";
+
+import { removeFromBasket } from "../../Config/BasketSlice";
+
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 function UserNavbar() {
+  const dispatch = useDispatch();
   let myUser = JSON.parse(localStorage.getItem("user"));
   const handleLogOut = () => {
     window.localStorage.removeItem("user");
@@ -132,68 +137,109 @@ function UserNavbar() {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "end",
+                        justifyContent: "space-between",
                         padding: "30px",
                       }}
                     >
+                      {/* NEW ADDI */}
+                      <div className="recentlyViewed">
+                        <div className="viewed">
+                          <ul>
+                            {MyBasket &&
+                              MyBasket.map((item) => {
+                                return (
+                                  <li>
+                                    <div className="left">
+                                      <div className="imgWrapper">
+                                        <img src={item.products.image} alt="" />
+                                      </div>
+                                      <div className="articles">
+                                        <h3 className="name">
+                                          {item.products.name}
+                                        </h3>
+                                        <h2 className="price">
+                                          ${item.products.price}
+                                        </h2>
+                                      </div>
+                                    </div>
+                                    <div className="cancel">
+                                      <button
+                                        onClick={() => {
+                                          dispatch(removeFromBasket(item));
+                                        }}
+                                      >
+                                        <TiDeleteOutline className="CancelCart" />
+                                      </button>
+                                    </div>
+                                  </li>
+                                );
+                              })}
+                          </ul>
+                        </div>
+                      </div>
+                      {/* NEW ADDI */}
                       <hr />
                       <div
-                        className="subTotal"
                         style={{
                           width: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          fontSize: "20px",
                         }}
                       >
-                        <span
+                        <div
+                          className="subTotal"
                           style={{
-                            // padding-right: .5em;
-                            // text-align: left;
-                            // font-weight: 500;
-                            fontWeight: "500",
-                            fontSize: "30px",
-                            color: "#74a84a",
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            fontSize: "20px",
                           }}
                         >
-                          Subtotal:
-                        </span>
-                        <span> ${subtotal.toFixed(2)}</span>
-                      </div>
+                          <span
+                            style={{
+                              // padding-right: .5em;
+                              // text-align: left;
+                              // font-weight: 500;
+                              fontWeight: "500",
+                              fontSize: "30px",
+                              color: "#74a84a",
+                            }}
+                          >
+                            Subtotal:
+                          </span>
+                          <span> ${subtotal.toFixed(2)}</span>
+                        </div>
 
-                      <hr />
-                      <button
-                        style={{
-                          width: "100%",
-                          padding: "10px",
-                          backgroundColor: " #74a84a",
-                        }}
-                      >
-                        <Link
-                          to="/basket"
+                        <hr />
+                        <button
                           style={{
+                            width: "100%",
+                            padding: "10px",
+                            backgroundColor: " #74a84a",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          <Link
+                            to="/basket"
+                            style={{
+                              color: "white",
+                            }}
+                          >
+                            VIEW CHART
+                          </Link>
+                        </button>
+                        <br />
+                        <button
+                          className="Checkout"
+                          style={{
+                            width: "100%",
+                            padding: "10px",
+                            backgroundColor: " #74a84a",
                             color: "white",
                           }}
                         >
-                          VIEW CHART
-                        </Link>
-                      </button>
-                      <br />
-                      <button
-                          className="Checkout"
-
-                        style={{
-                          width: "100%",
-                          padding: "10px",
-                          backgroundColor: " #74a84a",
-                          color: "white",
-                        }}
-                      >
-                        <Link to="/checkout"
-                       
-                        >CHECKOUT</Link>
-                      </button>
+                          <Link to="/checkout">CHECKOUT</Link>
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -214,8 +260,24 @@ function UserNavbar() {
               <li>
                 {myUser ? (
                   <NavDropdown title={myUser.username} id="basic-nav-dropdown">
-                    <NavDropdown.Item onClick={handleLogOut}>
+                    <NavDropdown.Item
+                      onClick={handleLogOut}
+                      style={{
+                        lineHeight: "0",
+                        margin: "10px",
+                        paddingBottom: "10px",
+                      }}
+                    >
                       Log out
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item
+                      style={{
+                        lineHeight: "0",
+                        margin: "10px",
+                      }}
+                    >
+                      <Link to="/profile">User Profile</Link>
                     </NavDropdown.Item>
                   </NavDropdown>
                 ) : (
