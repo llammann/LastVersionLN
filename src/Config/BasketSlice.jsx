@@ -22,7 +22,7 @@ const BasketSlice = createSlice({
         state.basket.push({ count: 1, products: actions.payload });
       }
       let myUser = {
-        username: user.username,
+        username: user.surname,
         password: user.password,
         basket: state.basket,
         id: user.id,

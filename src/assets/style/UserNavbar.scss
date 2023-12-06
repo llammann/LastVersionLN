@@ -35,6 +35,13 @@
       justify-content: space-between;
       align-items: center;
       margin: 0;
+  
+        .Checkout {
+          :hover {
+            color: black;
+          }
+        }
+
 
       li {
         margin: 0;
@@ -70,7 +77,7 @@
             padding: 4px 7px;
             border-radius: 50%;
             max-width: fit-content;
-            font-family: Roboto,sans-serif;
+            font-family: Roboto, sans-serif;
           }
         }
       }

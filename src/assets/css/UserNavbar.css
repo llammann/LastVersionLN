@@ -30,6 +30,9 @@
   align-items: center;
   margin: 0;
 }
+.bigContainer .userNavbar ul .Checkout :hover {
+  color: black;
+}
 .bigContainer .userNavbar ul li {
   margin: 0;
   padding: 0;

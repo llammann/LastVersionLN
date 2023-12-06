@@ -29,6 +29,9 @@ function index() {
       const response = await axios.post("http://localhost:3000/users", {
         username: values.username,
         password: values.password,
+        wishlist: [],
+        basket: [],
+        balance: 0,
       });
 
       if (response.status === 200 || response.status === 201) {

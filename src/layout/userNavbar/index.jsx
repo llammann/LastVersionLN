@@ -181,6 +181,8 @@ function UserNavbar() {
                       </button>
                       <br />
                       <button
+                          className="Checkout"
+
                         style={{
                           width: "100%",
                           padding: "10px",
@@ -188,7 +190,9 @@ function UserNavbar() {
                           color: "white",
                         }}
                       >
-                        <Link to="/checkout">CHECKOUT</Link>
+                        <Link to="/checkout"
+                       
+                        >CHECKOUT</Link>
                       </button>
                     </div>
                   </div>
