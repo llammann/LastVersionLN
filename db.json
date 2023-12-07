@@ -56,17 +56,11 @@
       "username": "michael_taylor"
     },
     {
-      "name": "Sophia",
-      "surname": "Brown",
+      "username": "sophia_brown",
       "email": "sophia.brown@example.com",
       "password": "SecurePass2022",
-      "orders": [],
-      "isAdmin": false,
-      "balance": 90.3,
-      "basket": [],
-      "favorites": [],
-      "id": "6",
-      "username": "sophia_brown"
+      "balance": "90",
+      "id": "6"
     },
     {
       "name": "Oliver",
@@ -160,25 +154,34 @@
       "username": "noah_cooper"
     },
     {
-      "name": "Mia",
-      "surname": "Baker",
-      "email": "mia.baker@example.com",
-      "password": "SecretPass777",
-      "orders": [],
-      "isAdmin": false,
-      "balance": 150.2,
-      "basket": [],
-      "favorites": [],
-      "id": "14",
-      "username": "mia_baker"
-    },
-    {
-      "username": "Laman",
-      "password": "laman123",
-      "wishlist": [],
-      "basket": [],
-      "balance": 0,
-      "id": "ix9E0kS"
+      "username": "Samaya",
+      "password": "samaya123",
+      "isAdmin": true,
+      "basket": [
+        {
+          "count": 4,
+          "products": {
+            "id": 3,
+            "name": "Postcard V3",
+            "category": "Postcard",
+            "description": "Sending a travel postcard to a loved one is truly a thoughtful gesture that can bring joy and inspiration. Inspiration can come in the form of taking a break from the normal routine, while being reminded of the more adventurous and exotic destinations around the world.",
+            "price": 23.99,
+            "image": "https://websitedemos.net/earth-store-02/wp-content/uploads/sites/1171/2022/11/Postcard3.jpg"
+          }
+        },
+        {
+          "count": 12,
+          "products": {
+            "id": 2,
+            "name": "Postcard V2",
+            "category": "Postcard",
+            "description": "Sending a travel postcard to a loved one is truly a thoughtful gesture that can bring joy and inspiration. Inspiration can come in the form of taking a break from the normal routine, while being reminded of the more adventurous and exotic destinations around the world.",
+            "price": 23.99,
+            "image": "https://websitedemos.net/earth-store-02/wp-content/uploads/sites/1171/2022/10/PostcardV2-min.jpg"
+          }
+        }
+      ],
+      "id": "mNmZ3zz"
     }
   ]
 }

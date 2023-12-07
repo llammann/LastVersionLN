@@ -2,15 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {
   ChakraProvider,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  Input,
-  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -18,90 +9,104 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Input,
   VStack,
+  Button,
+} from "@chakra-ui/react";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
 } from "@chakra-ui/react";
 import "./../../../assets/style/admin/AdminHome.scss";
 
 function Users() {
   const [data, setData] = useState([]);
-  const [user, setUser] = useState([]);
-  const [filteredUser, setFilteredUser] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [editUserId, setEditUserId] = useState(null);
-  const [editUserName, setEditUserName] = useState("");
-  const [editUserSurname, setEditUserSurname] = useState("");
-  const [editUserPassword, setEditUserPassword] = useState("");
-  const [editUserEmail, setEditUserEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios("http://localhost:3000/users").then((res) => {
-      setUser(res.data);
-      setFilteredUser(res.data);
-    });
+    fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios("http://localhost:3000/users");
+      setData(response.data);
+      setFilteredData(response.data);
+    } catch (error) {
+      console.error("Error fetching users: ", error);
+    }
+  };
+
   useEffect(() => {
-    const filteredUsers = user.filter((element) => {
-      console.log(element);
-
-      if (!element || !element.name || !element.surname || !element.email) {
-        return false;
-      }
-
+    const filteredUsers = data.filter((element) => {
       const isMatchingSearchTerm =
-        element.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        element.surname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        element.email.toLowerCase().includes(searchTerm.toLowerCase());
+        (element.username &&
+          element.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (element.email &&
+          element.email.toLowerCase().includes(searchTerm.toLowerCase()));
 
       return isMatchingSearchTerm;
     });
 
-    setFilteredUser(filteredUsers);
-  }, [searchTerm, user]);
+    setFilteredData(filteredUsers);
+  }, [searchTerm, data]);
 
   const handleEditClick = (
     userId,
     userName,
-    userSurname,
+    userEmail,
     userPassword,
-    userEmail
+    userBalance
   ) => {
     setEditUserId(userId);
     setEditUserName(userName);
-    setEditUserSurname(userSurname);
-    setEditUserPassword(userPassword);
     setEditUserEmail(userEmail);
+    setEditUserPassword(userPassword);
+    setEditUserBalance(userBalance);
     setIsEditing(true);
   };
 
   const handleEditClose = () => {
     setEditUserId(null);
     setEditUserName("");
-    setEditUserSurname("");
-    setEditUserPassword("");
     setEditUserEmail("");
+    setEditUserPassword("");
+    setEditUserBalance("");
     setIsEditing(false);
   };
 
   const handleSaveEdit = () => {
     axios
       .put(`http://localhost:3000/users/${editUserId}`, {
-        name: editUserName,
-        surname: editUserSurname,
-        password: editUserPassword,
+        username: editUserName,
         email: editUserEmail,
+        password: editUserPassword,
+        balance: editUserBalance,
       })
       .then(() => {
-        axios("http://localhost:3000/users").then((res) => {
-          setUser(res.data);
-          setFilteredUser(res.data);
-        });
-
+        fetchData();
         handleEditClose();
       })
       .catch((error) => {
         console.error("Error editing user: ", error);
+      });
+  };
+
+  const handleDelete = (userId) => {
+    axios
+      .delete(`http://localhost:3000/users/${userId}`)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        console.error("Error deleting user: ", error);
       });
   };
 
@@ -121,53 +126,23 @@ function Users() {
               <Tr>
                 <Th>ID</Th>
                 <Th>Username</Th>
-                <Th>Surname</Th>
-                <Th>Password</Th>
                 <Th>Email</Th>
-                <Th>Edit</Th>
+                <Th>Password</Th>
+                <Th>Balance</Th>
                 <Th>Delete</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {filteredUser.map((element) => (
+              {filteredData.map((element) => (
                 <Tr key={element.id}>
                   <Td>{element.id}</Td>
-                  <Td>{element.name}</Td>
-                  <Td>{element.surname}</Td>
-                  <Td>{element.password}</Td>
+                  <Td>{element.username}</Td>
                   <Td>{element.email}</Td>
+                  <Td>{element.password}</Td>
+                  <Td>{element.balance}</Td>
                   <Td>
                     <Button
-                      colorScheme="cyan"
-                      onClick={() =>
-                        handleEditClick(
-                          element.id,
-                          element.name,
-                          element.surname,
-                          element.password,
-                          element.email
-                        )
-                      }
-                    >
-                      Edit
-                    </Button>
-                  </Td>
-                  <Td>
-                    <Button
-                      onClick={() => {
-                        axios
-                          .delete(`http://localhost:3000/users/${element.id}`)
-                          .then(() => {
-                            let updatedUsers = user.filter(
-                              (x) => x.id !== element.id
-                            );
-                            setUser(updatedUsers);
-                            setFilteredUser(updatedUsers);
-                          })
-                          .catch((error) => {
-                            console.error("Error deleting user: ", error);
-                          });
-                      }}
+                      onClick={() => handleDelete(element.id)}
                       colorScheme="red"
                     >
                       Delete
@@ -181,43 +156,6 @@ function Users() {
       </div>
 
       {/* Edit Modal */}
-      <Modal isOpen={isEditing} onClose={handleEditClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit User</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <VStack spacing={4}>
-              <Input
-                placeholder="Username"
-                value={editUserName}
-                onChange={(e) => setEditUserName(e.target.value)}
-              />
-              <Input
-                placeholder="Surname"
-                value={editUserSurname}
-                onChange={(e) => setEditUserSurname(e.target.value)}
-              />
-              <Input
-                placeholder="Password"
-                value={editUserPassword}
-                onChange={(e) => setEditUserPassword(e.target.value)}
-              />
-              <Input
-                placeholder="Email"
-                value={editUserEmail}
-                onChange={(e) => setEditUserEmail(e.target.value)}
-              />
-            </VStack>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSaveEdit}>
-              Save
-            </Button>
-            <Button onClick={handleEditClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </ChakraProvider>
   );
 }

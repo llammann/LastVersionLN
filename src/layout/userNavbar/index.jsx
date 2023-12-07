@@ -22,26 +22,20 @@ function UserNavbar() {
     sessionStorage.setItem("userlogin", JSON.stringify(false));
     window.location.reload();
   };
+  const MyBasket = useSelector((state) => state.basket.basket);
 
   let subtotal = 0;
-
-  const MyBasket = useSelector((state) => state.basket.basket);
-  console.log(MyBasket);
+  let count = 0;
 
   MyBasket.map((x) => {
     subtotal += x.products.price * x.count;
+    count += x.count;
   });
 
-  // Calculate the quantity Basket
-  const basketQuantity = MyBasket ? MyBasket.length : 0;
-  console.log(basketQuantity);
-
   const MyWishlist = useSelector((state) => state.wishlist.wishlist);
-  console.log(MyWishlist);
 
   // Calculate the quantity WishList
   const wishlistQuantity = MyWishlist ? MyWishlist.length : 0;
-  console.log(wishlistQuantity);
 
   return (
     <>
@@ -253,7 +247,7 @@ function UserNavbar() {
                     />
                   </span>
                   <sup className="up">
-                    <span>{basketQuantity}</span>
+                    <span>{count}</span>
                   </sup>
                 </button>
               </li>

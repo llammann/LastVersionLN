@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const MyBasket = JSON.parse(localStorage.getItem("basket"));
+const User = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
-  basket: MyBasket || [],
+  basket: User ? User.basket : [],
 };
 
 const BasketSlice = createSlice({
@@ -22,14 +23,22 @@ const BasketSlice = createSlice({
         state.basket.push({ count: 1, products: actions.payload });
       }
       let myUser = {
-        username: user.surname,
+        username: user.username,
         password: user.password,
         basket: state.basket,
         id: user.id,
       };
-      localStorage.setItem("user", JSON.stringify(myUser));
 
-      localStorage.setItem("basket", JSON.stringify(state.basket));
+      localStorage.setItem("user", JSON.stringify(myUser));
+      axios.put(
+        `http://localhost:3000/users/${user.id}`,
+        JSON.stringify(myUser),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
     },
 
     handleMinus: (state, actions) => {

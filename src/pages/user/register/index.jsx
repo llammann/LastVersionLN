@@ -8,46 +8,27 @@ import { ref } from "yup";
 import axios from "axios";
 
 const Login = Yup.object().shape({
-  username: Yup.string().required("Please enter a username"),
+  username: Yup.string().required("Please entered username"),
   password: Yup.string()
-    .required("Please enter the correct password!")
-    .matches(/^(?=.[a-z])(?=.\d).{8,}$/, "Please enter the correct password!"),
+    .required("Please entered the Correct password!")
+    .matches(
+      /^(?=.*[a-z])(?=.*\d).{8,}$/,
+      "Please entered the Correct password!"
+    ),
   confirm_password: Yup.string()
     .required("Please confirm your password")
     .oneOf([ref("password")], "Passwords do not match"),
-  balance: Yup.number()
-    .required("Please enter a balance")
-    .min(0, "Balance must be at least 0"),
-  email: Yup.string()
-    .required("Please enter a valid email")
-    .email("Invalid email address"),
 });
 
-function Index() {
+function index() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-
-  const handleSubmit = async (values) => {
-    try {
-      const response = await axios.post("http://localhost:3000/users", {
-        username: values.username,
-        password: values.password,
-        email: values.email,
-        wishlist: [],
-        basket: [],
-        balance: values.balance || 0, // Default to 0 if balance is not provided
-      });
-
-      if (response.status === 200 || response.status === 201) {
-        navigate("/login");
-      } else {
-        throw new Error("Registration failed");
-      }
-    } catch (error) {
-      setError("Registration failed. Please try again.");
-      console.error("Registration Error:", error);
-    }
-  };
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:3000/users").then((res) => {
+      setUsers(res.data);
+    });
+  }, []);
 
   return (
     <div className="login">
@@ -64,14 +45,48 @@ function Index() {
                   username: "",
                   password: "",
                   confirm_password: "",
-                  balance: "",
-                  email: "",
+                  balance: 0,
                 }}
+                // validationSchema={Login}
                 validateOnBlur={false}
                 validateOnChange={false}
                 validationSchema={Login}
-                onSubmit={(values) => {
-                  handleSubmit(values);
+                onSubmit={async (values) => {
+                  const sameUser = users.find(
+                    (element) => element.username === values.username
+                  );
+                  if (sameUser) {
+                    alert("This username is already have an account");
+                  } else {
+                    axios.post("http://localhost:3000/users", {
+                      username: values.username,
+                      password: values.password,
+                      wishlist: [],
+                      basket: [],
+                      balance: values.balance,
+                    });
+
+                    navigate("/login");
+                  }
+
+                  // try {
+                  //   const response = await axios.post("http://localhost:3000/users", {
+                  //     username: values.username,
+                  //     password: values.password,
+                  //     wishlist: [],
+                  //     basket: [],
+                  //     balance: 0,
+                  //   });
+
+                  //   if (response.status === 200 || response.status === 201) {
+                  //     navigate("/login");
+                  //   } else {
+                  //     throw new Error("Registration failed");
+                  //   }
+                  // } catch (error) {
+                  //   setError("Registration failed. Please try again.");
+                  //   console.error("Registration Error:", error);
+                  // }
                 }}
               >
                 {({ errors, touched }) => (
@@ -130,7 +145,6 @@ function Index() {
                         {errors.password}
                       </div>
                     )}
-
                     <div className="input">
                       <label>Confirm Password *</label>
                       <Field name="confirm_password" />
@@ -149,51 +163,12 @@ function Index() {
                         {errors.confirm_password}
                       </div>
                     )}
-
                     <div className="input">
-                      <label>Email *</label>
-                      <Field
-                        className="email"
-                        name="email"
-                        style={
-                          errors.email &&
-                          touched.email && { borderColor: "red" }
-                        }
-                      />
-                    </div>
-                    {errors.email && touched.email && (
-                      <div
-                        style={
-                          errors.email &&
-                          touched.email && {
-                            fontSize: "17px",
-                            color: "red",
-                            marginTop: "-20px",
-                          }
-                        }
-                      >
-                        {errors.email}
+                      <label>Balance *</label>
+                      <div className="input-username">
+                        <Field className="username" name="balance" />
                       </div>
-                    )}
-
-                    <div className="input">
-                      <label>Balance</label>
-                      <Field name="balance" type="number" />
                     </div>
-                    {errors.balance && touched.balance && (
-                      <div
-                        style={
-                          errors.balance &&
-                          touched.balance && {
-                            fontSize: "17px",
-                            color: "red",
-                            marginTop: "-20px",
-                          }
-                        }
-                      >
-                        {errors.balance}
-                      </div>
-                    )}
 
                     <button type="submit">Sign Up</button>
                   </Form>
@@ -210,4 +185,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default index;

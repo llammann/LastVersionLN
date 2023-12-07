@@ -13,9 +13,9 @@ import Checkout from "../pages/user/checkout";
 import Dashboard from "../pages/admin/dashboard";
 import Users from "../pages/admin/users";
 import Products from "../pages/admin/products";
-import AddUsers from "../pages/admin/addUsers";
 import AddProducts from "../pages/admin/addProducts";
 import AdminHome from "../pages/admin/adminHome";
+import AdminLogin from "../pages/admin/adminLogin";
 export const routes = [
   {
     path: "/",
@@ -77,23 +77,23 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <AdminLogin />,
       },
       {
-        path: "users",
+        path: "/admin/users",
         element: <Users />,
       },
       {
-        path: "products",
+        path: "/admin/products",
         element: <Products />,
       },
       {
-        path: "addUsers",
-        element: <AddUsers />,
+        path: "/admin/addProducts",
+        element: <AddProducts />,
       },
       {
-        path: "addProducts",
-        element: <AddProducts />,
+        path: "dashboard",
+        element: <Dashboard />,
       },
     ],
   },

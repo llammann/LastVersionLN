@@ -1,11 +1,10 @@
 import { Container } from "react-bootstrap";
 import "../../../assets/style/Login.scss";
-// import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Field, Form } from "formik";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, Navigate, json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().required("Please enter a username"),
@@ -17,30 +16,17 @@ const LoginSchema = Yup.object().shape({
     ),
 });
 
-function Index() {
+function AdminLogin() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
+
   useEffect(() => {
-    axios.get("http://localhost:3000/users").then((res) => {
+    // Ancaq admin olan userlerin isadmin deyerlerini db.jsondan getirir
+    axios.get("http://localhost:3000/users?fields=id,isAdmin").then((res) => {
       setUsers(res.data);
     });
   }, []);
-
-  // const submitHandler = async (values) => {
-  //   try {
-  //     const response = await axios.post("http://localhost:3001/users/login", {
-  //       username: values.username,
-  //       password: values.password,
-  //     });
-
-  //     console.log("Login successful", response.data);
-  //     history.push("/home");
-  //   } catch (err) {
-  //     console.error("Login failed", err);
-  //     setError("Invalid username or password");
-  //   }
-  // };
 
   return (
     <div className="login">
@@ -59,8 +45,10 @@ function Index() {
                 }}
                 validationSchema={LoginSchema}
                 onSubmit={(values) => {
+                  // Yalniz isAdmin=true olanlari tapir
                   const foundUser = users.find(
                     (element) =>
+                      element.isAdmin &&
                       element.username === values.username &&
                       element.password === values.password
                   );
@@ -68,10 +56,10 @@ function Index() {
                   if (foundUser) {
                     localStorage.setItem("user", JSON.stringify(foundUser));
                     sessionStorage.setItem("userlogin", JSON.stringify(true));
-                    navigate("/");
+                    navigate("dashboard");
                     window.location.reload();
                   } else {
-                    alert("User not found");
+                    setError("Invalid username or password");
                   }
                 }}
               >
@@ -141,9 +129,6 @@ function Index() {
                 )}
               </Formik>
             </div>
-            <div className="switch-login">
-              <Link to="/register">register</Link>
-            </div>
           </div>
         </Container>
       </div>
@@ -151,4 +136,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default AdminLogin;
